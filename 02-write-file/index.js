@@ -7,12 +7,23 @@ fs.open(path.join(__dirname, 'text.txt'), 'w', (err) => {
     if(err) throw err;
 });
 
+console.log('Please, enter text:');
+
 const rl = readline.createInterface({ input, output });
 
-rl.question('Please, enter text:', (answer) => {
-        fs.appendFile(path.join(__dirname, 'text.txt'), answer, (err) => {
-            if(err) throw err;
-        });
+function endInput() {
     console.log('The file is recorded');
     rl.close();
+}
+
+rl.on('line', (input) => {
+    if (input == 'exit') {
+        endInput();        
+    } else {
+        fs.appendFile(path.join(__dirname, 'text.txt'), input, (err) => {
+            if(err) throw err;
+        });
+    }
 });
+
+rl.on('SIGINT', () => endInput()); 
