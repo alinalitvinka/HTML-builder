@@ -11,7 +11,9 @@ fs.readdir(commonPath, (err, files) => {
 
         fs.stat(commonPath.concat('\\', file), (err, stats) => {
             const size = stats.size;
-            console.log(`${file.split('.')[0]} - ${file.split('.')[1]} - ${size}b`);
+            if (stats.isFile()) {
+                console.log(`${file.split('.')[0]} - ${file.split('.')[1]} - ${size}b`);
+            }
         });
     })
   }
